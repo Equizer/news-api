@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import Badge from './Badge.js'
 import NewsItem from './NewsItem'
 
 export class News extends Component {
@@ -21,16 +20,14 @@ export class News extends Component {
       inTopHeadLines: 'https://newsapi.org/v2/top-headlines?country=in&apiKey=7a53337011074519b2a9b032b4ed21b9&pageSize=21',
       cricket: 'https://newsapi.org/v2/everything?from=2023-10-25&to=2023-10-25&sortBy=popularity&apiKey=7a53337011074519b2a9b032b4ed21b9&q=cricket&pageSize=21'
     };
-    let data = await fetch(url.inTopHeadLines);
+    let data = await fetch(url.usTopHeadlines);
     let parsedData = await data.json();
-    console.log(parsedData, url.inTopHeadLines);
 
     //following line will set the state of article to the article in the url we get from fetching which will be inside parsedData.article
     this.setState({ articles: parsedData.articles, totalResults: parsedData.totalResults });
   }
 
   handlePrevClick = async () => {
-    console.log('prev');
     let url = {
       usTopHeadlines: `https://newsapi.org/v2/top-headlines?country=us&apiKey=7a53337011074519b2a9b032b4ed21b9&page=${this.state.page - 1}&pageSize=21`,
       inTopHeadLines: `https://newsapi.org/v2/top-headlines?country=in&apiKey=7a53337011074519b2a9b032b4ed21b9&page=${this.state.page - 1}&pageSize=21`,
@@ -38,14 +35,12 @@ export class News extends Component {
     };
     let data = await fetch(url.inTopHeadLines);
     let parsedData = await data.json();
-    console.log(parsedData, url.inTopHeadLines)
     this.setState({
       page: this.state.page - 1,
       articles: parsedData.articles
     });
   }
   handleNextClick = async () => {
-    console.log('next');
     let url = {
       usTopHeadlines: `https://newsapi.org/v2/top-headlines?country=us&apiKey=7a53337011074519b2a9b032b4ed21b9&page=${this.state.page + 1}&pageSize=21`,
       inTopHeadLines: `https://newsapi.org/v2/top-headlines?country=in&apiKey=7a53337011074519b2a9b032b4ed21b9&page=${this.state.page + 1}&pageSize=21`,
@@ -53,9 +48,40 @@ export class News extends Component {
     };
     let data = await fetch(url.inTopHeadLines);
     let parsedData = await data.json();
-    console.log(parsedData, url.inTopHeadLines)
     this.setState({
       page: this.state.page + 1,
+      articles: parsedData.articles
+    });
+  }
+  handleIndia = async () => {
+    let url = `https://newsapi.org/v2/top-headlines?country=in&apiKey=7a53337011074519b2a9b032b4ed21b9&pageSize=21`;
+    let data = await fetch(url);
+    let parsedData = await data.json();
+    this.setState({
+      articles: parsedData.articles
+    });
+  }
+  handleUSA = async () => {
+    let url = `https://newsapi.org/v2/top-headlines?country=us&apiKey=7a53337011074519b2a9b032b4ed21b9&pageSize=21`;
+    let data = await fetch(url);
+    let parsedData = await data.json();
+    this.setState({
+      articles: parsedData.articles
+    });
+  }
+  handleCricket = async () => {
+    let url = `https://newsapi.org/v2/top-headlines?q=cricket&apiKey=7a53337011074519b2a9b032b4ed21b9&pageSize=21`;
+    let data = await fetch(url);
+    let parsedData = await data.json();
+    this.setState({
+      articles: parsedData.articles
+    });
+  }
+  handleFootball = async () => {
+    let url = `https://newsapi.org/v2/top-headlines?q=football&apiKey=7a53337011074519b2a9b032b4ed21b9&pageSize=21`;
+    let data = await fetch(url);
+    let parsedData = await data.json();
+    this.setState({
       articles: parsedData.articles
     });
   }
@@ -65,9 +91,10 @@ export class News extends Component {
     return (
       <>
         <div className="container">
-          <Badge badgeText="USA" />
-          <Badge badgeText="India" />
-          <Badge badgeText="Cricket" />
+          <button className="btn btn-primary btn-md mx-2" onClick={this.handleIndia}>India</button>
+          <button className="btn btn-primary btn-md mx-2" onClick={this.handleUSA}>USA</button>
+          <button className="btn btn-primary btn-md mx-2" onClick={this.handleCricket}>Cricket</button>
+          <button className="btn btn-primary btn-md mx-2" onClick={this.handleFootball}>Football</button>
         </div>
 
         <div className="container my-4">
@@ -81,7 +108,7 @@ export class News extends Component {
           </div>
         </div>
         <div className="container d-flex justify-content-between my-3">
-          <button className="btn btn-md btn-dark" disabled={this.state.page<=1} onClick={this.handlePrevClick}>&larr; Previous</button>
+          <button className="btn btn-md btn-dark" disabled={this.state.page <= 1} onClick={this.handlePrevClick}>&larr; Previous</button>
           <button className="btn btn-md btn-dark" onClick={this.handleNextClick}>Next &rarr; </button>
         </div>
       </>
