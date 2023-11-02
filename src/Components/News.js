@@ -8,7 +8,6 @@ export class News extends Component {
   static defaultProps = {
     country: 'in',
     pageSize: 8,
-    apiKey: '7a53337011074519b2a9b032b4ed21b9',
     category: 'general'
   }
   static propTypes = {
@@ -29,18 +28,21 @@ export class News extends Component {
   }
 
   async updateNews() {
-    let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=7a53337011074519b2a9b032b4ed21b9&page=${this.state.page}&pageSize=${this.props.pageSize}`;
+    this.props.setProgress(10);
+    let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.apiKey}&page=${this.state.page}&pageSize=${this.props.pageSize}`;
     this.setState({ loading: true })
     let data = await fetch(url);
+    this.props.setProgress(30);
     let parsedData = await data.json();
+    this.props.setProgress(70);
     //following line will set the state of article to the article in the url we get from fetching which will be inside parsedData.article
     this.setState({
       articles: parsedData.articles,
       totalResults: parsedData.totalResults,
       loading: false
     });
+    this.props.setProgress(100)
   }
-  //link for best react lifecycle method for component diagram: https://projects.wojtekmaj.pl/react-lifecycle-methods-diagram/
   async componentDidMount() {
     this.updateNews();
   }
@@ -74,7 +76,7 @@ export class News extends Component {
       <>
         <h1 className="text-center"> <strong>Newzilla</strong> - Today's Top {`${(this.props.category.slice(0, 1)).toUpperCase()}${this.props.category.slice(1)}`} Headlines</h1>
 
-        {this.state.loading && <Spinner />}
+        {/* {this.state.loading && <Spinner />} */}
         <InfiniteScroll
           dataLength={this.state.articles.length}
           next={this.fetchMoreData}
