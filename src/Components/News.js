@@ -14,22 +14,22 @@ const News = (props) => {
   // document.title = `${(props.category.slice(0, 1)).toUpperCase()}${props.category.slice(1)} - Newzilla`;
 
   const updateNews = async () => {
-    props.setProgressFunction(10)
+    props.setProgress(10)
 
     let url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.apiKey}&page=${page}&pageSize=${props.pageSize}`;
 
     setLoading(true);
 
     let data = await fetch(url);
-    props.setProgressFunction(30);
+    props.setProgress(30);
     let parsedData = await data.json();
-    props.setProgressFunction(70);
+    props.setProgress(70);
 
     setArticles(parsedData.articles);
     setTotalResults(parsedData.totalResults);
     setLoading(false);
 
-    props.setProgressFunction(100)
+    props.setProgress(100)
   }
 
   useEffect(() => {
@@ -37,8 +37,8 @@ const News = (props) => {
   }, []);
 
   const fetchMoreData = async () => {
+    let url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.apiKey}&page=${page + 1}&pageSize=${props.pageSize}`;
     setPage(page + 1);
-    let url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.apiKey}&page=${page}&pageSize=${props.pageSize}`;
     setLoading(true);
     let data = await fetch(url);
     let parsedData = await data.json();
@@ -49,7 +49,7 @@ const News = (props) => {
   }
     return (
       <>
-        <h1 className="text-center"> <strong>Newzilla</strong> - Today's Top {`${(props.category.slice(0, 1)).toUpperCase()}${props.category.slice(1)}`} Headlines</h1>
+        <h1 className="text-center" style={{marginTop: '65px' }}> <strong>Newzilla</strong> - Today's Top {`${(props.category.slice(0, 1)).toUpperCase()}${props.category.slice(1)}`} Headlines</h1>
 
         {loading && <Spinner />}
         <InfiniteScroll
@@ -60,8 +60,8 @@ const News = (props) => {
         >
           <div className="container">
             <div className="row">
-              {articles.map((element, index) => {
-                return (<div className="col-md-4 my-3" key={element.url + index}>
+              {articles.map((element) => {
+                return (<div className="col-md-4 my-3" key={element.url}>
                   <NewsItem title={element.title ? element.title.slice(0, 45) : ''} description={element.description ? element.description.slice(0, 88) : ''} imageUrl={element.urlToImage ? element.urlToImage : 'https://m.files.bbci.co.uk/modules/bbc-morph-news-waf-page-meta/5.3.0/bbc_news_logo.png'} newsUrl={element.url} date={element.publishedAt} author={element.author} sourceName={element.source.name ? element.source.name : ''} />
                 </div>);
               })}
