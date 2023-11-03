@@ -11,7 +11,6 @@ const News = (props) => {
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [totalResults, setTotalResults] = useState(0);
-  // document.title = `${(props.category.slice(0, 1)).toUpperCase()}${props.category.slice(1)} - Newzilla`;
 
   const updateNews = async () => {
     props.setProgress(10)
@@ -33,6 +32,7 @@ const News = (props) => {
   }
 
   useEffect(() => {
+    document.title = `${(props.category.slice(0, 1)).toUpperCase()}${props.category.slice(1)} - Newzilla`;
     updateNews();
   }, []);
 
@@ -47,30 +47,30 @@ const News = (props) => {
     setTotalResults(parsedData.totalResults);
     setLoading(false);
   }
-    return (
-      <>
-        <h1 className="text-center" style={{marginTop: '65px' }}> <strong>Newzilla</strong> - Today's Top {`${(props.category.slice(0, 1)).toUpperCase()}${props.category.slice(1)}`} Headlines</h1>
+  return (
+    <>
+      <h1 className="text-center" style={{ marginTop: '65px' }}> <strong>Newzilla</strong> - Today's Top {`${(props.category.slice(0, 1)).toUpperCase()}${props.category.slice(1)}`} Headlines</h1>
 
-        {loading && <Spinner />}
-        <InfiniteScroll
-          dataLength={articles.length}
-          next={fetchMoreData}
-          hasMore={articles.length < totalResults}
-          loader={<Spinner />}
-        >
-          <div className="container">
-            <div className="row">
-              {articles.map((element) => {
-                return (<div className="col-md-4 my-3" key={element.url}>
-                  <NewsItem title={element.title ? element.title.slice(0, 45) : ''} description={element.description ? element.description.slice(0, 88) : ''} imageUrl={element.urlToImage ? element.urlToImage : 'https://m.files.bbci.co.uk/modules/bbc-morph-news-waf-page-meta/5.3.0/bbc_news_logo.png'} newsUrl={element.url} date={element.publishedAt} author={element.author} sourceName={element.source.name ? element.source.name : ''} />
-                </div>);
-              })}
-            </div>
+      {loading && <Spinner />}
+      <InfiniteScroll
+        dataLength={articles.length}
+        next={fetchMoreData}
+        hasMore={articles.length < totalResults}
+        loader={<Spinner />}
+      >
+        <div className="container">
+          <div className="row">
+            {articles.map((element) => {
+              return (<div className="col-md-4 my-3" key={element.url}>
+                <NewsItem title={element.title ? element.title.slice(0, 45) : ''} description={element.description ? element.description.slice(0, 88) : ''} imageUrl={element.urlToImage ? element.urlToImage : 'https://m.files.bbci.co.uk/modules/bbc-morph-news-waf-page-meta/5.3.0/bbc_news_logo.png'} newsUrl={element.url} date={element.publishedAt} author={element.author} sourceName={element.source.name ? element.source.name : ''} />
+              </div>);
+            })}
           </div>
-        </InfiniteScroll>
-      </>
-    )
-  }
+        </div>
+      </InfiniteScroll>
+    </>
+  )
+}
 
 News.defaultProps = {
   country: 'in',
