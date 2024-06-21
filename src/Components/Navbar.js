@@ -22,6 +22,7 @@ const Navbar = () => {
             <li className="nav-item"><Link className="nav-link" aria-current to="science">Science</Link></li>
             <li className="nav-item"><Link className="nav-link" aria-current to="sports">Sports</Link></li>
             <li className="nav-item"><Link className="nav-link" aria-current to="technology">Technology</Link></li>
+            <li className="nav-item"><Link className="nav-link" aria-current to="USA">USA</Link></li>
           </ul>
 
           <form className="d-flex" role="search">

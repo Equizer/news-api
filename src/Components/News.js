@@ -62,7 +62,7 @@ const News = (props) => {
           <div className="row">
             {articles.map((element) => {
               return (<div className="col-md-4 my-3" key={element.url}>
-                <NewsItem title={element.title ? element.title.slice(0, 45) : ''} description={element.description ? element.description.slice(0, 88) : ''} imageUrl={element.urlToImage ? element.urlToImage : 'https://m.files.bbci.co.uk/modules/bbc-morph-news-waf-page-meta/5.3.0/bbc_news_logo.png'} newsUrl={element.url} date={element.publishedAt} author={element.author} sourceName={element.source.name ? element.source.name : ''} />
+                <NewsItem articles={articles} title={element.title ? element.title.slice(0, 45) : ''} description={element.description ? element.description.slice(0, 88) : ''} imageUrl={element.urlToImage ? element.urlToImage : 'https://m.files.bbci.co.uk/modules/bbc-morph-news-waf-page-meta/5.3.0/bbc_news_logo.png'} newsUrl={element.url} date={element.publishedAt} author={element.author} sourceName={element.source.name ? element.source.name : ''} />
               </div>);
             })}
           </div>

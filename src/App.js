@@ -2,7 +2,8 @@ import './App.css';
 
 import React, { useState } from 'react';
 import Navbar from './Components/Navbar.js';
-import News from './Components/News';
+import News from './Components/News';;
+import Saved from './Components/Saved.js';
 import {
   BrowserRouter as Router,
   Switch,
@@ -13,7 +14,7 @@ import {
 import LoadingBar from 'react-top-loading-bar'
 
 const App = () => {
-  const pageSize = 4;
+  const pageSize = 9;
   const apiKey = process.env.REACT_APP_NEWS_API;
   const [progress, setProgress] = useState(0);
 
@@ -31,7 +32,8 @@ const App = () => {
           <Route exact path="/science" element={<News setProgress={setProgress} apiKey={apiKey} key="science" pageSize={pageSize} category='science' />} />
           <Route exact path="/sports" element={<News setProgress={setProgress} apiKey={apiKey} key="sports" pageSize={pageSize} category='sports' />} />
           <Route exact path="/technology" element={<News setProgress={setProgress} apiKey={apiKey} key="technology" pageSize={pageSize} category='technology' />} />
-          <Route exact path="/saved" />
+          <Route exact path="/USA" element={<News setProgress={setProgress} apiKey={apiKey} key="us" pageSize={pageSize} category="general" country="us"/>}/>
+          <Route exact path="/saved" element={<Saved />}/>
         </Routes>
       </Router>
     </>
